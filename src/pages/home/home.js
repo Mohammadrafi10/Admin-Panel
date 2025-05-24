@@ -9,7 +9,7 @@ function Home() {
         <Navbar />
         <main className="p-4 mt-16 ml-0 mr-16">
           <h2 className="text-2xl font-semibold">Welcome to Dashboard</h2>
-          {/* Your main content goes here */}
+          {/* {main content is here} */}
         </main>
       </div>
     </div>
