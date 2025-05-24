@@ -2,6 +2,38 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Creating New Routes and Pages
+
+When creating a new route/page, use the following template structure to maintain consistent layout:
+
+```jsx
+import Navbar from "../../components/navbar/navbar";
+import Sidebar from "../../components/sidebar/sidebar";
+
+function YourPageName() {
+  return (
+    <div className="flex flex-row-reverse">
+      <Sidebar />
+      <div className="flex-1">
+        <Navbar />
+        <main className="p-4 mt-16 ml-0 mr-16">
+          <h2 className="text-2xl font-semibold">Your Page Title</h2>
+          {/* Your main content goes here */}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+export default YourPageName;
+```
+
+Then add your route in `App.js`:
+
+```jsx
+<Route path="/your-path" element={<YourPageName />} />
+```
+
 ## Available Scripts
 
 In the project directory, you can run:

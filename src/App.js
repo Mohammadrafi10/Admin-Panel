@@ -1,28 +1,51 @@
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Home from "./pages/home/home";
 import Products from "./pages/products/products";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HiMoon, HiSun } from "react-icons/hi";
+
 function App() {
-  // const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(
+    localStorage.getItem("darkMode") === "true" || false
+  );
 
-  // useEffect(() => {
-  //   if (isDark) {
-  //     document.body.classList.add("dark");
-  //   } else {
-  //     document.body.classList.remove("dark");
-  //   }
-  // }, [isDark]);
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("darkMode", isDark);
+  }, [isDark]);
 
-  // const darkMode = () => {
-  //   setIsDark(!isDark);
-  // };
+  const darkMode = () => {
+    setIsDark(!isDark);
+  };
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="relative min-h-screen bg-white dark:bg-gray-900">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+        </Routes>
+      </BrowserRouter>
+      <button
+        className="fixed bottom-4 right-2 p-3 rounded-full shadow-lg transition-all duration-300 ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-400 focus:ring-white z-[9999]"
+        onClick={darkMode}
+        style={{
+          background: isDark ? "#ffffff" : "#1a1a1a",
+          color: isDark ? "#1a1a1a" : "#ffffff",
+        }}
+        aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      >
+        {isDark ? (
+          <HiSun className="w-6 h-6" />
+        ) : (
+          <HiMoon className="w-6 h-6" />
+        )}
+      </button>
+    </div>
   );
 }
 
