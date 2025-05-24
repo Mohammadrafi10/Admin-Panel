@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Home from "./pages/home/home";
 import Products from "./pages/products/products";
+import Login from "./components/login/login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HiMoon, HiSun } from "react-icons/hi";
 
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
       <button
