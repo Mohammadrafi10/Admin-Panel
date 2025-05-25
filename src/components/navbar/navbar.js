@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   HiOutlineBell,
   HiOutlineSearch,
@@ -16,14 +17,14 @@ function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo/Brand - Right Side */}
           <div className="flex items-center justify-end">
-            <a
-              href="/"
+            <Link
+              to="/login"
               className="text-xl font-bold flex items-center lg:mr-2.5"
             >
               <span className="self-center whitespace-nowrap text-gray-800 dark:text-white">
                 Admin Panel
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}

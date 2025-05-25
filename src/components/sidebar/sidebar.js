@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   HiMenuAlt3,
   HiOutlineHome,
@@ -9,9 +9,12 @@ import {
   HiOutlineLogout,
 } from "react-icons/hi";
 import { MdProductionQuantityLimits } from "react-icons/md";
+import Loader from "../loader/loader";
 
 function Sidebar() {
   const [open, setOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const menus = [
     { name: "Dashboard", Link: "/", icon: HiOutlineHome },
@@ -19,57 +22,78 @@ function Sidebar() {
     { name: "Users", Link: "/users", icon: HiOutlineUserGroup },
     { name: "Documents", Link: "/documents", icon: HiOutlineDocumentText },
     { name: "Settings", Link: "/settings", icon: HiOutlineCog },
-    { name: "Logout", Link: "/logout", icon: HiOutlineLogout },
+    { name: "Logout", Link: "/login", icon: HiOutlineLogout },
   ];
 
+  const handleNavigation = (path) => {
+    setIsLoading(true);
+    // Simulate loading time
+    setTimeout(() => {
+      setIsLoading(false);
+      navigate(path);
+    }, 800); // Match with loader animation duration
+  };
+
   return (
-    <div
-      className={`min-h-screen fixed top-0 right-0 z-50 ${
-        open ? "w-72" : "w-16"
-      } duration-500 text-gray-100 px-4 bg-gray-900`}
-    >
-      <div className="py-3 flex justify-start relative">
-        <button
-          className="absolute right-0 top-5 bg-gray-900 text-gray-100 rounded-full p-1 hover:bg-gray-800 focus:outline-none"
-          onClick={() => setOpen(!open)}
-        >
-          <HiMenuAlt3
-            size={24}
-            className={`transform duration-500 ${
-              open ? "rotate-180" : "rotate-0"
-            }`}
-          />
-        </button>
-      </div>
-      <div className="mt-8 flex flex-col gap-4 relative">
-        {menus?.map((menu, i) => (
-          <Link
-            to={menu?.Link}
-            key={i}
-            className={`group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+    <>
+      {isLoading && <Loader />}
+      <div
+        className={`min-h-screen fixed top-0 right-0 z-50 ${
+          open ? "w-72" : "w-16"
+        } duration-500 text-gray-100 bg-[#1E2330] shadow-xl`}
+      >
+        {/* Header/Toggle Section */}
+        <div className="py-4 px-4 border-b border-gray-700/50 flex justify-between items-center">
+          <div className={`${!open && "scale-0 w-0"} duration-500`}>
+            <h2 className="text-xl font-bold text-purple-500">Admin Panel</h2>
+          </div>
+          <button
+            className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            onClick={() => setOpen(!open)}
           >
-            <div className="min-w-[20px]">
-              <menu.icon size={20} />
-            </div>
-            <h2
-              style={{ transitionDelay: `${i + 3}00ms` }}
-              className={`whitespace-pre duration-500 ${
-                !open && "opacity-0 -translate-x-28 overflow-hidden"
+            <HiMenuAlt3
+              size={24}
+              className={`transform duration-500 ${
+                open ? "rotate-180" : "rotate-0"
               }`}
+            />
+          </button>
+        </div>
+
+        {/* Menu Items */}
+        <div className="mt-6 px-3 flex flex-col gap-2">
+          {menus?.map((menu, i) => (
+            <button
+              key={i}
+              onClick={() => handleNavigation(menu.Link)}
+              className="group relative flex items-center gap-3.5 font-medium p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-300 w-full text-right"
             >
-              {menu?.name}
-            </h2>
-            <h2
-              className={`${
-                open && "hidden"
-              } absolute right-14 bg-gray-900 font-semibold whitespace-pre text-gray-100 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:right-14 group-hover:duration-300 group-hover:w-fit`}
-            >
-              {menu?.name}
-            </h2>
-          </Link>
-        ))}
+              <div className="min-w-[32px] w-8 flex items-center justify-center rounded-md bg-gray-800/50 text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+                <menu.icon size={20} />
+              </div>
+              <h2
+                style={{ transitionDelay: `${i + 3}00ms` }}
+                className={`whitespace-pre text-gray-300 group-hover:text-white duration-500 ${
+                  !open && "opacity-0 -translate-x-28 overflow-hidden w-0"
+                }`}
+              >
+                {menu?.name}
+              </h2>
+              {/* Tooltip for collapsed state */}
+              <h2
+                className={`${
+                  open && "hidden"
+                } absolute right-14 bg-gray-800 font-semibold text-purple-500 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-3 group-hover:py-2 group-hover:right-14 group-hover:duration-300 group-hover:w-fit whitespace-nowrap`}
+              >
+                {menu?.name}
+              </h2>
+              {/* Active indicator - Now appears at bottom */}
+              <div className="absolute bottom-0 right-0 left-0 h-0.5 bg-purple-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-right"></div>
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
