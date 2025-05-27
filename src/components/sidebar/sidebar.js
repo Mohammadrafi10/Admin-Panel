@@ -43,7 +43,7 @@ function Sidebar() {
         } duration-500 text-gray-100 bg-[#1E2330] shadow-xl`}
       >
         {/* Header/Toggle Section */}
-        <div className="py-4 px-4 border-b border-gray-700/50 flex justify-between items-center">
+        <div className="py-4 px-4 flex justify-between items-center">
           <div className={`${!open && "scale-0 w-0"} duration-500`}>
             <h2 className="text-xl font-bold text-purple-500">Admin Panel</h2>
           </div>
@@ -87,7 +87,7 @@ function Sidebar() {
               >
                 {menu?.name}
               </h2>
-              {/* Active indicator - Now appears at bottom */}
+              {/* Active indicator */}
               <div className="absolute bottom-0 right-0 left-0 h-0.5 bg-purple-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-right"></div>
             </button>
           ))}

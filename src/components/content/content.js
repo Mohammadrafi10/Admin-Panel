@@ -1,6 +1,7 @@
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import Cards from "../cards/cards";
+import LineChart from "../../charts/linecharts/linecharts";
 function Content() {
   let cardData = [
     {
@@ -38,10 +39,13 @@ function Content() {
           <h2 className="text-2xl font-semibold dark:text-white">
             Welcome to Dashboard
           </h2>
-          <div className="grid grid-cols-1 md:grid-col-4 lg:grid-cols-3 bg-purple-100 dark:bg-gray-800 dark:text-white">
+          <div className="rounded-md grid grid-cols-1 md:grid-col-4 lg:grid-cols-3 bg-purple-100 dark:bg-gray-800 dark:text-white">
             {cardData.map((card) => (
               <Cards key={card.id} {...card} />
             ))}
+          </div>
+          <div className="charts">
+          {/* <LineChart/> */}
           </div>
         </main>
       </div>
