@@ -1,7 +1,13 @@
+import React from "react";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import Cards from "../cards/cards";
-import LineChart from "../../charts/linecharts/linecharts";
+import {
+  BarChart,
+  LineChart,
+  DoughnutChart,
+} from "../../charts/dashboardCharts";
+
 function Content() {
   let cardData = [
     {
@@ -44,12 +50,28 @@ function Content() {
               <Cards key={card.id} {...card} />
             ))}
           </div>
-          <div className="charts">
-          {/* <LineChart/> */}
+          <div className="p-4 mt-14">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 dark:text-white">
+              {/* Bar Chart */}
+              <div className="w-full">
+                <BarChart />
+              </div>
+
+              {/* Line Chart */}
+              <div className="w-full">
+                <LineChart />
+              </div>
+
+              {/* Doughnut Chart */}
+              <div className="w-full lg:col-span-2">
+                <DoughnutChart />
+              </div>
+            </div>
           </div>
         </main>
       </div>
     </div>
   );
 }
+
 export default Content;
