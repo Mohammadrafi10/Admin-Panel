@@ -79,30 +79,42 @@ function Products() {
             </h2>
           </div>
 
-          {/* Search and Filter Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div className="relative">
-              <HiSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                onChange={handleSearch}
-                className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg py-2 px-4 pr-10 focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div className="relative">
-              <select
-                className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg py-2 px-4 appearance-none focus:outline-none focus:border-blue-500"
-                value={selectedCategory}
-                onChange={handleCategoryChange}
-              >
-                <option value="">All Categories</option>
-                <option value="electronics">Electronics</option>
-                <option value="clothing">Clothing</option>
-                <option value="accessories">Accessories</option>
-              </select>
-              <HiFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          {/* Search and Filter Container */}
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="relative flex-1">
+                <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Search Products
+                </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg py-2 px-4 pr-10 focus:outline-none focus:border-blue-500"
+                  />
+                  <HiSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                </div>
+              </div>
+              <div className="relative flex-1">
+                <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Filter by Category
+                </div>
+                <div className="relative">
+                  <select
+                    className="w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg py-2 px-4 pl-10 appearance-none focus:outline-none focus:border-blue-500"
+                    value={selectedCategory}
+                    onChange={handleCategoryChange}
+                  >
+                    <option value="">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="accessories">Accessories</option>
+                  </select>
+                  <HiFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                </div>
+              </div>
             </div>
           </div>
 
