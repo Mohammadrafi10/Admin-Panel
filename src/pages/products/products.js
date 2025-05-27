@@ -39,6 +39,29 @@ function Products() {
     },
   ]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = Object.values(product).some((value) =>
+      String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const matchesCategory =
+      selectedCategory === "" ||
+      product.category.toLowerCase() === selectedCategory.toLowerCase();
+
+    return matchesSearch && matchesCategory;
+  });
+
   return (
     <div className="flex flex-row-reverse">
       <Sidebar />
@@ -63,11 +86,17 @@ function Products() {
               <input
                 type="text"
                 placeholder="Search products..."
+                value={searchTerm}
+                onChange={handleSearch}
                 className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg py-2 px-4 pr-10 focus:outline-none focus:border-blue-500"
               />
             </div>
             <div className="relative">
-              <select className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg py-2 px-4 appearance-none focus:outline-none focus:border-blue-500">
+              <select
+                className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg py-2 px-4 appearance-none focus:outline-none focus:border-blue-500"
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+              >
                 <option value="">All Categories</option>
                 <option value="electronics">Electronics</option>
                 <option value="clothing">Clothing</option>
@@ -118,7 +147,7 @@ function Products() {
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                   <tr
                     key={product.id}
                     className="hover:bg-gray-50 dark:hover:bg-gray-700"
