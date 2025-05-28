@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import {
@@ -16,74 +17,51 @@ function Users() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const [activeActionId, setActiveActionId] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const actionHandler = (userId) => {
     setActiveActionId(activeActionId === userId ? null : userId);
   };
 
-  const [editUser, setEditUser] = useState(null);
-  const [deleteUser, setDeleteUser] = useState(null);
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-  const editHandler = (userId) => {
-    setEditUser(editUser === userId ? null : userId);
-    console.log("edited");
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/users");
+      setUsers(response.data);
+      setLoading(false);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setError("Failed to fetch users");
+      setLoading(false);
+    }
   };
 
-  const deleteHandler = (userId) => {
-    setDeleteUser(deleteUser === userId ? null : userId);
-    console.log("deleted");
+  const editHandler = async (userId) => {
+    try {
+      setActiveActionId(null);
+      // Add your edit logic here
+      console.log("Editing user:", userId);
+    } catch (error) {
+      console.error("Error editing user:", error);
+    }
   };
 
-  const [users] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      role: "Admin",
-      department: "IT",
-      status: "Active",
-      location: "New York",
-      lastActive: "2 hours ago",
-      avatar:
-        "https://ui-avatars.com/api/?name=John+Doe&background=6366f1&color=fff",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      role: "Manager",
-      department: "Sales",
-      status: "Active",
-      location: "London",
-      lastActive: "5 hours ago",
-      avatar:
-        "https://ui-avatars.com/api/?name=Jane+Smith&background=8b5cf6&color=fff",
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      email: "mike@example.com",
-      role: "User",
-      department: "Marketing",
-      status: "Inactive",
-      location: "Paris",
-      lastActive: "2 days ago",
-      avatar:
-        "https://ui-avatars.com/api/?name=Mike+Johnson&background=ec4899&color=fff",
-    },
-    {
-      id: 4,
-      name: "Sarah Williams",
-      email: "sarah@example.com",
-      role: "Editor",
-      department: "Content",
-      status: "Active",
-      location: "Berlin",
-      lastActive: "1 hour ago",
-      avatar:
-        "https://ui-avatars.com/api/?name=Sarah+Williams&background=14b8a6&color=fff",
-    },
-  ]);
+  const deleteHandler = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:3001/users/${userId}`);
+      setUsers(users.filter((user) => user.id !== userId));
+      setActiveActionId(null);
+      console.log("User deleted successfully");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -113,6 +91,14 @@ function Users() {
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
   };
+
+  if (loading) {
+    return <div className="text-center p-4">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-600 p-4">{error}</div>;
+  }
 
   return (
     <div className="flex flex-row-reverse">
@@ -181,31 +167,31 @@ function Users() {
                       <tr>
                         <th
                           scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                         >
                           User
                         </th>
                         <th
                           scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell"
+                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell"
                         >
                           Contact
                         </th>
                         <th
                           scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                         >
                           Role
                         </th>
                         <th
                           scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell"
+                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell"
                         >
                           Status
                         </th>
                         <th
                           scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden lg:table-cell"
+                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden lg:table-cell"
                         >
                           Last Active
                         </th>
@@ -288,7 +274,7 @@ function Users() {
                                 <HiDotsVertical className="w-5 h-5" />
                               </button>
                               {activeActionId === user.id && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10">
+                                <div className="absolute right-0 top-12 transform -translate-y-full  w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10">
                                   <button
                                     onClick={() => editHandler(user.id)}
                                     className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full"

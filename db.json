@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "2",
+      "name": "Jane Doe",
+      "email": "jane@doe.com",
+      "password": "password",
+      "role": "user",
+      "status": "active",
+      "avatar": "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+    },
+    {
+      "id": "3",
+      "name": "John Doe",
+      "email": "john@doe.com",
+      "password": "password",
+      "role": "user",
+      "status": "active",
+      "avatar": "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+    }
+  ]
+}

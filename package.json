@@ -13,7 +13,9 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "animejs": "^4.0.2",
+    "axios": "^1.9.0",
     "framer-motion": "^12.12.2",
+    "json-server": "^1.0.0-beta.3",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0",
@@ -29,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "tailwindcss -i ./public/input.css -o ./public/output.css --watch",
-    "create": "tailwindcss -i ./public/input.css -o ./public/output.css "
+    "create": "tailwindcss -i ./public/input.css -o ./public/output.css ",
+    "server": "json-server --watch db.json --port 3001"
   },
   "eslintConfig": {
     "extends": [
