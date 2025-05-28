@@ -16,7 +16,7 @@ function Navbar() {
       <div className="mx-auto px-4 pr-20">
         <div className="relative flex justify-between items-center h-16">
           {/* Logo Section */}
-          <div className="flex-1 flex justify-end">
+          <div className="flex-1 flex justify-start">
             <Link to="/login" className="flex items-center">
               <span className="text-xl font-bold text-gray-800 dark:text-white">
                 Admin Panel
@@ -98,9 +98,11 @@ function Navbar() {
                 <span className="mr-3">اعلان‌ها</span>
               </button>
 
-              <button className="flex items-center justify-center p-3 text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                <HiOutlineUser className="h-6 w-6" />
-                <span className="mr-3">پروفایل</span>
+              <button className="flex items-center justify-center p-3 text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
+                <Link to="/users" className="flex items-center">
+                  <HiOutlineUser className="h-6 w-6" />
+                  <span className="mr-3">پروفایل</span>
+                </Link>
               </button>
             </div>
           </div>

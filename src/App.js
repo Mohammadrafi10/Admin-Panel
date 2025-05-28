@@ -3,9 +3,9 @@ import Home from "./pages/home/home";
 import Products from "./pages/products/products";
 import Login from "./components/login/login";
 import Loader from "./components/loader/loader";
+import Users from "./pages/users/users";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HiMoon, HiSun } from "react-icons/hi";
-
 
 function DarkModeButton({ isDark, darkMode }) {
   const location = useLocation();
@@ -56,6 +56,7 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/login" element={<Login />} />
           <Route path="/loader" element={<Loader />} />
+          <Route path="/users" element={<Users />} />
         </Routes>
         <DarkModeButton isDark={isDark} darkMode={darkMode} />
       </BrowserRouter>

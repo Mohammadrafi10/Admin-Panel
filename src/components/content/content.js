@@ -35,6 +35,11 @@ function Content() {
       title: "نرخ گردش",
       count: 2342,
     },
+    {
+      id: 6,
+      title: "نرخ گردش",
+      count: 2342,
+    },
   ];
   return (
     <div className="flex flex-row-reverse">
@@ -53,17 +58,17 @@ function Content() {
           <div className="p-4 mt-14">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 dark:text-white">
               {/* Bar Chart */}
-              <div className="w-full">
+              <div className="w-full dark:text-white">
                 <BarChart />
               </div>
 
               {/* Line Chart */}
-              <div className="w-full">
+              <div className="w-full dark:text-white">
                 <LineChart />
               </div>
 
               {/* Doughnut Chart */}
-              <div className="w-full lg:col-span-2">
+              <div className="w-full lg:col-span-2 dark:text-white">
                 <DoughnutChart />
               </div>
             </div>
