@@ -30,10 +30,34 @@
       "email": "alice@johnson.com",
       "password": "password",
       "role": "user",
-      "status": "inactive",
+      "status": "active",
       "department": "Marketing",
       "location": "Paris",
       "lastActive": "2024-03-15",
+      "avatar": "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+    },
+    {
+      "id": "1748687228092",
+      "name": "Rafi Shirzai",
+      "email": "rafishirzai@mod.af",
+      "password": "password",
+      "role": "admin",
+      "status": "inactive",
+      "department": "IT is here for controlling data",
+      "location": "Kabul , Afghanistan",
+      "lastActive": "2025-05-31",
+      "avatar": "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+    },
+    {
+      "id": "1748687229300",
+      "name": "Rafi Shirzai",
+      "email": "rafishirzai@mod.af",
+      "password": "password",
+      "role": "admin",
+      "status": "inactive",
+      "department": "IT is here for controlling data",
+      "location": "Kabul , Afghanistan",
+      "lastActive": "2025-05-31",
       "avatar": "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
     }
   ],
@@ -61,6 +85,14 @@
       "price": "$29",
       "stock": 89,
       "status": "In Stock"
+    },
+    {
+      "id": "1748686942038",
+      "name": "jockets",
+      "category": "Clothing",
+      "price": "10$",
+      "stock": 10,
+      "status": "Low Stock"
     }
   ]
 }

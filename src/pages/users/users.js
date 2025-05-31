@@ -13,6 +13,7 @@ import {
   HiX,
 } from "react-icons/hi";
 import { MdDelete, MdEdit } from "react-icons/md";
+import AddUsers from "../../components/addButtons/AddUsers/addusers";
 
 function Users() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,6 +24,7 @@ function Users() {
   const [error, setError] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const actionHandler = (userId) => {
     setActiveActionId(activeActionId === userId ? null : userId);
@@ -126,7 +128,10 @@ function Users() {
         <main className="p-4 mt-16 ml-0 mr-16">
           {/* Header Section */}
           <div className="flex justify-between items-center mb-6">
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+            >
               <HiPlus className="w-5 h-5" />
               Add User
             </button>
@@ -457,6 +462,11 @@ function Users() {
               </div>
             </div>
           )}
+
+          <AddUsers
+            isOpen={showAddModal}
+            onClose={() => setShowAddModal(false)}
+          />
         </main>
       </div>
     </div>

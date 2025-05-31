@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
+import AddProducts from "../../components/addButtons/AddProducts/addproducts";
 import {
   HiPlus,
   HiSearch,
@@ -20,6 +21,7 @@ function Products() {
   const [activeActionId, setActiveActionId] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -116,7 +118,10 @@ function Products() {
         <main className="p-4 mt-16 ml-0 mr-16">
           {/* Header Section */}
           <div className="flex justify-between items-center mb-6">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+            >
               <HiPlus className="w-5 h-5" />
               Add Product
             </button>
@@ -271,7 +276,7 @@ function Products() {
 
           {/* Edit Modal */}
           {showEditModal && editingProduct && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-purple-100 dark:bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
               <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -301,7 +306,7 @@ function Products() {
                           name: e.target.value,
                         })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                     />
                   </div>
                   <div>
@@ -316,7 +321,7 @@ function Products() {
                           category: e.target.value,
                         })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                     >
                       <option value="Electronics">Electronics</option>
                       <option value="Clothing">Clothing</option>
@@ -336,7 +341,7 @@ function Products() {
                           price: e.target.value,
                         })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                     />
                   </div>
                   <div>
@@ -352,7 +357,7 @@ function Products() {
                           stock: parseInt(e.target.value),
                         })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                     />
                   </div>
                   <div>
@@ -367,7 +372,7 @@ function Products() {
                           status: e.target.value,
                         })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                     >
                       <option value="In Stock">In Stock</option>
                       <option value="Low Stock">Low Stock</option>
@@ -395,6 +400,13 @@ function Products() {
                 </form>
               </div>
             </div>
+          )}
+
+          {showAddModal && (
+            <AddProducts
+              isOpen={showAddModal}
+              onClose={() => setShowAddModal(false)}
+            />
           )}
         </main>
       </div>
