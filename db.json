@@ -1,22 +1,66 @@
 {
   "users": [
     {
-      "id": "2",
+      "id": "1",
       "name": "Jane Doe",
       "email": "jane@doe.com",
       "password": "password",
       "role": "user",
+      "status": "inactive",
+      "department": "IT",
+      "location": "Afghanistan",
+      "lastActive": "2024-03-20",
+      "avatar": "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+    },
+    {
+      "id": "2",
+      "name": "John Smith",
+      "email": "john@smith.com",
+      "password": "password",
+      "role": "manager",
       "status": "active",
+      "department": "Sales",
+      "location": "London",
+      "lastActive": "2024-03-19",
       "avatar": "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
     },
     {
       "id": "3",
-      "name": "John Doe",
-      "email": "john@doe.com",
+      "name": "Alice Johnson",
+      "email": "alice@johnson.com",
       "password": "password",
       "role": "user",
-      "status": "active",
+      "status": "inactive",
+      "department": "Marketing",
+      "location": "Paris",
+      "lastActive": "2024-03-15",
       "avatar": "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+    }
+  ],
+  "products": [
+    {
+      "id": "2",
+      "name": "Product 2",
+      "category": "Electronics",
+      "price": "1000$",
+      "stock": 16,
+      "status": "In Stock"
+    },
+    {
+      "id": "3",
+      "name": "Product 3",
+      "category": "Electronics",
+      "price": "$799",
+      "stock": 0,
+      "status": "Out of Stock"
+    },
+    {
+      "id": "4",
+      "name": "Product 4",
+      "category": "Accessories",
+      "price": "$29",
+      "stock": 89,
+      "status": "In Stock"
     }
   ]
 }

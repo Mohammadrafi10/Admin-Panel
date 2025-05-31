@@ -1,46 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
-import { HiPlus, HiSearch, HiFilter, HiDotsVertical } from "react-icons/hi";
+import {
+  HiPlus,
+  HiSearch,
+  HiFilter,
+  HiDotsVertical,
+  HiX,
+} from "react-icons/hi";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 function Products() {
-  const [products] = useState([
-    {
-      id: 1,
-      name: "Product 1",
-      category: "Electronics",
-      price: "$999",
-      stock: 45,
-      status: "In Stock",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      category: "Clothing",
-      price: "$59",
-      stock: 12,
-      status: "Low Stock",
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      category: "Electronics",
-      price: "$799",
-      stock: 0,
-      status: "Out of Stock",
-    },
-    {
-      id: 4,
-      name: "Product 4",
-      category: "Accessories",
-      price: "$29",
-      stock: 89,
-      status: "In Stock",
-    },
-  ]);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeActionId, setActiveActionId] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/products");
+      setProducts(response.data);
+      setLoading(false);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setError("Failed to fetch products");
+      setLoading(false);
+    }
+  };
+
+  const actionHandler = (productId) => {
+    setActiveActionId(activeActionId === productId ? null : productId);
+  };
+
+  const editHandler = async (productId) => {
+    const productToEdit = products.find((product) => product.id === productId);
+    setEditingProduct(productToEdit);
+    setShowEditModal(true);
+    setActiveActionId(null);
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `http://localhost:3001/products/${editingProduct.id}`,
+        editingProduct
+      );
+      setProducts(
+        products.map((product) =>
+          product.id === editingProduct.id ? editingProduct : product
+        )
+      );
+      setShowEditModal(false);
+      setEditingProduct(null);
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
+  };
+
+  const deleteHandler = async (productId) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        await axios.delete(`http://localhost:3001/products/${productId}`);
+        setProducts(products.filter((product) => product.id !== productId));
+        setActiveActionId(null);
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
+    }
+  };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -61,6 +99,14 @@ function Products() {
 
     return matchesSearch && matchesCategory;
   });
+
+  if (loading) {
+    return <div className="text-center p-4">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-600 p-4">{error}</div>;
+  }
 
   return (
     <div className="flex flex-row-reverse">
@@ -190,15 +236,166 @@ function Products() {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
-                        <HiDotsVertical className="w-5 h-5" />
-                      </button>
+                      <div className="relative">
+                        <button
+                          onClick={() => actionHandler(product.id)}
+                          className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 p-1"
+                        >
+                          <HiDotsVertical className="w-5 h-5" />
+                        </button>
+                        {activeActionId === product.id && (
+                          <div className="absolute right-0 top-12 transform -translate-y-full w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10">
+                            <button
+                              onClick={() => editHandler(product.id)}
+                              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full"
+                            >
+                              <MdEdit className="w-5 h-5 mr-2" />
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => deleteHandler(product.id)}
+                              className="flex items-center px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 w-full"
+                            >
+                              <MdDelete className="w-5 h-5 mr-2" />
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+
+          {/* Edit Modal */}
+          {showEditModal && editingProduct && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Edit Product
+                  </h3>
+                  <button
+                    onClick={() => {
+                      setShowEditModal(false);
+                      setEditingProduct(null);
+                    }}
+                    className="text-gray-400 hover:text-gray-500"
+                  >
+                    <HiX className="w-5 h-5" />
+                  </button>
+                </div>
+                <form onSubmit={handleEditSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      value={editingProduct.name}
+                      onChange={(e) =>
+                        setEditingProduct({
+                          ...editingProduct,
+                          name: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Category
+                    </label>
+                    <select
+                      value={editingProduct.category}
+                      onChange={(e) =>
+                        setEditingProduct({
+                          ...editingProduct,
+                          category: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="Electronics">Electronics</option>
+                      <option value="Clothing">Clothing</option>
+                      <option value="Accessories">Accessories</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Price
+                    </label>
+                    <input
+                      type="text"
+                      value={editingProduct.price}
+                      onChange={(e) =>
+                        setEditingProduct({
+                          ...editingProduct,
+                          price: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Stock
+                    </label>
+                    <input
+                      type="number"
+                      value={editingProduct.stock}
+                      onChange={(e) =>
+                        setEditingProduct({
+                          ...editingProduct,
+                          stock: parseInt(e.target.value),
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Status
+                    </label>
+                    <select
+                      value={editingProduct.status}
+                      onChange={(e) =>
+                        setEditingProduct({
+                          ...editingProduct,
+                          status: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="In Stock">In Stock</option>
+                      <option value="Low Stock">Low Stock</option>
+                      <option value="Out of Stock">Out of Stock</option>
+                    </select>
+                  </div>
+                  <div className="flex justify-end gap-3 mt-6">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowEditModal(false);
+                        setEditingProduct(null);
+                      }}
+                      className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </div>

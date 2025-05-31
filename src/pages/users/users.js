@@ -10,6 +10,7 @@ import {
   HiMail,
   HiOfficeBuilding,
   HiLocationMarker,
+  HiX,
 } from "react-icons/hi";
 import { MdDelete, MdEdit } from "react-icons/md";
 
@@ -20,6 +21,8 @@ function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const actionHandler = (userId) => {
     setActiveActionId(activeActionId === userId ? null : userId);
@@ -43,23 +46,38 @@ function Users() {
   };
 
   const editHandler = async (userId) => {
+    const userToEdit = users.find((user) => user.id === userId);
+    setEditingUser(userToEdit);
+    setShowEditModal(true);
+    setActiveActionId(null);
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
     try {
-      setActiveActionId(null);
-      // Add your edit logic here
-      console.log("Editing user:", userId);
+      await axios.put(
+        `http://localhost:3001/users/${editingUser.id}`,
+        editingUser
+      );
+      setUsers(
+        users.map((user) => (user.id === editingUser.id ? editingUser : user))
+      );
+      setShowEditModal(false);
+      setEditingUser(null);
     } catch (error) {
-      console.error("Error editing user:", error);
+      console.error("Error updating user:", error);
     }
   };
 
   const deleteHandler = async (userId) => {
-    try {
-      await axios.delete(`http://localhost:3001/users/${userId}`);
-      setUsers(users.filter((user) => user.id !== userId));
-      setActiveActionId(null);
-      console.log("User deleted successfully");
-    } catch (error) {
-      console.error("Error deleting user:", error);
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await axios.delete(`http://localhost:3001/users/${userId}`);
+        setUsers(users.filter((user) => user.id !== userId));
+        setActiveActionId(null);
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
     }
   };
 
@@ -301,6 +319,144 @@ function Users() {
               </div>
             </div>
           </div>
+
+          {/* Edit Modal */}
+          {showEditModal && editingUser && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Edit User
+                  </h3>
+                  <button
+                    onClick={() => {
+                      setShowEditModal(false);
+                      setEditingUser(null);
+                    }}
+                    className="text-gray-400 hover:text-gray-500"
+                  >
+                    <HiX className="w-5 h-5" />
+                  </button>
+                </div>
+                <form onSubmit={handleEditSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      value={editingUser.name}
+                      onChange={(e) =>
+                        setEditingUser({ ...editingUser, name: e.target.value })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      value={editingUser.email}
+                      onChange={(e) =>
+                        setEditingUser({
+                          ...editingUser,
+                          email: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Role
+                    </label>
+                    <select
+                      value={editingUser.role}
+                      onChange={(e) =>
+                        setEditingUser({ ...editingUser, role: e.target.value })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="manager">Manager</option>
+                      <option value="user">User</option>
+                      <option value="editor">Editor</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Status
+                    </label>
+                    <select
+                      value={editingUser.status}
+                      onChange={(e) =>
+                        setEditingUser({
+                          ...editingUser,
+                          status: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Department
+                    </label>
+                    <input
+                      type="text"
+                      value={editingUser.department}
+                      onChange={(e) =>
+                        setEditingUser({
+                          ...editingUser,
+                          department: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Location
+                    </label>
+                    <input
+                      type="text"
+                      value={editingUser.location}
+                      onChange={(e) =>
+                        setEditingUser({
+                          ...editingUser,
+                          location: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <div className="flex justify-end gap-3 mt-6">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowEditModal(false);
+                        setEditingUser(null);
+                      }}
+                      className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </div>
