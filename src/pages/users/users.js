@@ -142,7 +142,7 @@ function Users() {
 
           {/* Search and Filter Container */}
           <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-6">
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:gap-4">
               <div className="relative flex-1">
                 <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Search Users
@@ -181,147 +181,144 @@ function Users() {
           </div>
 
           {/* Users Table */}
-          <div className="relative overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
             <div className="overflow-x-auto">
-              <div className="inline-block min-w-full align-middle">
-                <div className="overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                        >
-                          User
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell"
-                        >
-                          Contact
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                        >
-                          Role
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell"
-                        >
-                          Status
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-3.5 px-4 sm:px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden lg:table-cell"
-                        >
-                          Last Active
-                        </th>
-                        <th
-                          scope="col"
-                          className="relative py-3.5 px-4 sm:px-6"
-                        >
-                          <span className="sr-only">Actions</span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                      {filteredUsers.map((user) => (
-                        <tr
-                          key={user.id}
-                          className="hover:bg-gray-50 dark:hover:bg-gray-700"
-                        >
-                          <td className="py-4 px-4 sm:px-6 whitespace-nowrap">
-                            <div className="flex items-center gap-3 sm:gap-4">
-                              <img
-                                className="h-8 w-8 sm:h-10 sm:w-10 rounded-full flex-shrink-0"
-                                src={user.avatar}
-                                alt={user.name}
-                              />
-                              <div className="min-w-0 flex-1">
-                                <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                                  {user.name}
-                                </div>
-                                <div className="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">
-                                  <HiLocationMarker className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                                  {user.location}
-                                </div>
-                                {/* Mobile-only contact info */}
-                                <div className="md:hidden mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                  <div className="flex items-center gap-1">
-                                    <HiMail className="h-3 w-3 text-gray-400" />
-                                    {user.email}
-                                  </div>
-                                </div>
-                              </div>
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                    >
+                      User
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden lg:table-cell"
+                    >
+                      Contact
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                    >
+                      Role
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell"
+                    >
+                      Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden lg:table-cell"
+                    >
+                      Last Active
+                    </th>
+                    <th scope="col" className="relative px-4 sm:px-6 py-3">
+                      <span className="sr-only">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  {filteredUsers.map((user) => (
+                    <tr
+                      key={user.id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-3">
+                          <img
+                            className="h-8 w-8 sm:h-10 sm:w-10 rounded-full flex-shrink-0"
+                            src={user.avatar}
+                            alt={user.name}
+                          />
+                          <div className="min-w-0 flex-1">
+                            <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                              {user.name}
                             </div>
-                          </td>
-                          <td className="py-4 px-4 sm:px-6 whitespace-nowrap hidden md:table-cell">
-                            <div className="text-sm text-gray-900 dark:text-gray-100">
+                            <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 truncate">
+                              <HiLocationMarker className="mr-1 h-3 w-3 flex-shrink-0" />
+                              {user.location}
+                            </div>
+                            {/* Show contact info on mobile */}
+                            <div className="lg:hidden mt-1 text-xs text-gray-500 dark:text-gray-400">
                               <div className="flex items-center gap-1">
-                                <HiMail className="h-4 w-4 text-gray-400" />
+                                <HiMail className="h-3 w-3" />
                                 {user.email}
                               </div>
-                            </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
                               <div className="flex items-center gap-1">
-                                <HiOfficeBuilding className="h-4 w-4" />
+                                <HiOfficeBuilding className="h-3 w-3" />
                                 {user.department}
                               </div>
                             </div>
-                          </td>
-                          <td className="py-4 px-4 sm:px-6 whitespace-nowrap">
-                            <div className="text-sm text-gray-900 dark:text-gray-100">
-                              {user.role}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap hidden lg:table-cell">
+                        <div className="text-sm text-gray-900 dark:text-gray-100">
+                          <div className="flex items-center gap-1">
+                            <HiMail className="h-4 w-4 text-gray-400" />
+                            {user.email}
+                          </div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            <div className="flex items-center gap-1">
+                              <HiOfficeBuilding className="h-4 w-4" />
+                              {user.department}
                             </div>
-                          </td>
-                          <td className="py-4 px-4 sm:px-6 whitespace-nowrap hidden sm:table-cell">
-                            <span
-                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusStyle(
-                                user.status
-                              )}`}
-                            >
-                              {user.status}
-                            </span>
-                          </td>
-                          <td className="py-4 px-4 sm:px-6 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden lg:table-cell">
-                            {user.lastActive}
-                          </td>
-                          <td className="py-4 px-4 sm:px-6 whitespace-nowrap text-right text-sm font-medium">
-                            <div className="relative">
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900 dark:text-gray-100">
+                          {user.role}
+                        </div>
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusStyle(
+                            user.status
+                          )}`}
+                        >
+                          {user.status}
+                        </span>
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden lg:table-cell">
+                        {user.lastActive}
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div className="relative">
+                          <button
+                            onClick={() => actionHandler(user.id)}
+                            className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 p-1"
+                          >
+                            <HiDotsVertical className="w-5 h-5" />
+                          </button>
+                          {activeActionId === user.id && (
+                            <div className="absolute right-0 top-12 transform -translate-y-full  w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10">
                               <button
-                                onClick={() => actionHandler(user.id)}
-                                className="text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 p-1"
+                                onClick={() => editHandler(user.id)}
+                                className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full"
                               >
-                                <HiDotsVertical className="w-5 h-5" />
+                                <MdEdit className="w-5 h-5 mr-2" />
+                                Edit
                               </button>
-                              {activeActionId === user.id && (
-                                <div className="absolute right-0 top-12 transform -translate-y-full  w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10">
-                                  <button
-                                    onClick={() => editHandler(user.id)}
-                                    className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full"
-                                  >
-                                    <MdEdit className="w-5 h-5 mr-2" />
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={() => deleteHandler(user.id)}
-                                    className="flex items-center px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 w-full"
-                                  >
-                                    <MdDelete className="w-5 h-5 mr-2" />
-                                    Delete
-                                  </button>
-                                </div>
-                              )}
+                              <button
+                                onClick={() => deleteHandler(user.id)}
+                                className="flex items-center px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 w-full"
+                              >
+                                <MdDelete className="w-5 h-5 mr-2" />
+                                Delete
+                              </button>
                             </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
 

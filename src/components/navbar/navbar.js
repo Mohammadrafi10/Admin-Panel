@@ -7,9 +7,11 @@ import {
   HiMenu,
   HiX,
 } from "react-icons/hi";
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isRTL, setIsRTL] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-40">
@@ -33,9 +35,6 @@ function Navbar() {
                 placeholder="...جستجو"
                 className="w-full h-10 pr-10 pl-4 py-2 text-right bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <HiOutlineSearch className="h-5 w-5 text-gray-400" />
-              </div>
             </div>
 
             {/* Notifications */}
