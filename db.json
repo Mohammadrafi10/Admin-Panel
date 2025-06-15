@@ -73,6 +73,14 @@
       "price": "10$",
       "stock": 10,
       "status": "Low Stock"
+    },
+    {
+      "id": "1749970805559",
+      "name": "pen",
+      "category": "Accessories",
+      "price": "10",
+      "stock": 100,
+      "status": "In Stock"
     }
   ]
 }

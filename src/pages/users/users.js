@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
+import AddUserModal from "../../components/modals/AddUserModal";
+import { useAddUser } from "../../hooks/useAddUser";
 import {
   HiPlus,
   HiSearch,
@@ -13,7 +15,6 @@ import {
   HiX,
 } from "react-icons/hi";
 import { MdDelete, MdEdit } from "react-icons/md";
-import AddUsers from "../../components/addButtons/AddUsers/addusers";
 
 function Users() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,7 +25,11 @@ function Users() {
   const [error, setError] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
+
+  // Use the custom hook for adding users
+  const addUser = useAddUser((newUser) => {
+    setUsers((prev) => [...prev, newUser]);
+  });
 
   const actionHandler = (userId) => {
     setActiveActionId(activeActionId === userId ? null : userId);
@@ -129,7 +134,7 @@ function Users() {
           {/* Header Section */}
           <div className="flex justify-between items-center mb-6">
             <button
-              onClick={() => setShowAddModal(true)}
+              onClick={() => addUser.openModal()}
               className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
             >
               <HiPlus className="w-5 h-5" />
@@ -460,9 +465,14 @@ function Users() {
             </div>
           )}
 
-          <AddUsers
-            isOpen={showAddModal}
-            onClose={() => setShowAddModal(false)}
+          {/* Add User Modal using the custom hook */}
+          <AddUserModal
+            isOpen={addUser.isOpen}
+            onClose={addUser.closeModal}
+            onSubmit={addUser.handleSubmit}
+            newUser={addUser.newUser}
+            updateUser={addUser.updateUser}
+            loading={addUser.loading}
           />
         </main>
       </div>

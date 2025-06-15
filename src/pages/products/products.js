@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
-import AddProducts from "../../components/addButtons/AddProducts/addproducts";
+import AddProductModal from "../../components/modals/AddProductModal";
+import { useAddProduct } from "../../hooks/useAddProduct";
 import {
   HiPlus,
   HiSearch,
@@ -25,7 +26,11 @@ function Products() {
   const [activeActionId, setActiveActionId] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
+
+  // Use the custom hook for adding products
+  const addProduct = useAddProduct((newProduct) => {
+    setProducts((prev) => [...prev, newProduct]);
+  });
 
   useEffect(() => {
     fetchProducts();
@@ -192,7 +197,7 @@ function Products() {
                 </p>
               </div>
               <button
-                onClick={() => setShowAddModal(true)}
+                onClick={() => addProduct.openModal()}
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl flex items-center gap-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
               >
                 <HiPlus className="w-5 h-5" />
@@ -548,12 +553,15 @@ function Products() {
             </div>
           )}
 
-          {showAddModal && (
-            <AddProducts
-              isOpen={showAddModal}
-              onClose={() => setShowAddModal(false)}
-            />
-          )}
+          {/* Add Product Modal using the custom hook */}
+          <AddProductModal
+            isOpen={addProduct.isOpen}
+            onClose={addProduct.closeModal}
+            onSubmit={addProduct.handleSubmit}
+            newProduct={addProduct.newProduct}
+            updateProduct={addProduct.updateProduct}
+            loading={addProduct.loading}
+          />
         </main>
       </div>
     </div>
